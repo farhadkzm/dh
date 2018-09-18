@@ -33,9 +33,8 @@ Install Helm on the cluster:
 helm init --service-account helm
 ```
 
-Create Elasticsearch
+Install Elasticsearch `helm install  --name es-release incubator/elasticsearch`
 
-```sh
-helm install  --name my-release incubator/elasticsearch
-```
+Install Kibana `helm install stable/kibana --name kibana -f kibana.yaml`
+
 
