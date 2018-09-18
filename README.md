@@ -36,7 +36,7 @@ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubato
 helm repo update
 ```
 
-Install Digital Chart  
+Install Digital stack  
 ```sh
 helm install --name dh-stack digital-stack/
 ```
