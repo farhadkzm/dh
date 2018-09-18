@@ -19,7 +19,7 @@ Run the downloaded Google Deployment Manager script
 export CLUSTER_NAME='dh-mini'
 export CLUSTER_ZONE='us-west1-a'
 
-gcloud deployment-manager deployments create ${CLUSTER_NAME} --template=k8s.py  --properties=CLUSTER_NAME:${CLUSTER_NAME},CLUSTER_ZONE:${CLUSTER_ZONE},NUM_NODES:3  --project=$PROJECT
+gcloud deployment-manager deployments create ${CLUSTER_NAME} --template=k8s.py  --properties=CLUSTER_NAME:${CLUSTER_NAME},CLUSTER_ZONE:${CLUSTER_ZONE},NUM_NODES:4  --project=$PROJECT
 ```
 
 Create required user account on the cluster
