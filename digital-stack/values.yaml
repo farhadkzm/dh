@@ -1,10 +1,6 @@
 kibana:  
   env: 
-  # All Kibana configuration options are adjustable via env vars.
-  # To adjust a config option to an env var uppercase + replace `.` with `_`
-  # Ref: https://www.elastic.co/guide/en/kibana/current/settings.html
-    ELASTICSEARCH_URL: http://es-release-elasticsearch-client:9200
-
+    ELASTICSEARCH_URL: http://dh-stack-elasticsearch-client:9200
   files:
     kibana.yml:
-      elasticsearch.url: http://es-release-elasticsearch-client:9200
+      elasticsearch.url: http://dh-stack-elasticsearch-client:9200
