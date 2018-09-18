@@ -5,15 +5,7 @@ export PROJECT='dh-v1-216802'
 gcloud services enable deploymentmanager.googleapis.com --project=$PROJECT
 ```
 
-Download required scripts:
-
-```sh
-curl https://raw.githubusercontent.com/farhadkzm/dh/master/k8s.py -L  -o k8s.py
-curl https://raw.githubusercontent.com/farhadkzm/dh/master/service_account.yaml -L  -o service_account.yaml
-curl https://raw.githubusercontent.com/farhadkzm/dh/master/kibana.yaml -L  -o kibana.yaml
-```
-
-Run the downloaded Google Deployment Manager script
+Checkout this git repository and run the Google Deployment Manager script
 
 ```sh
 export CLUSTER_NAME='dh-mini'
