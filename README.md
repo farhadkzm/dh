@@ -36,14 +36,9 @@ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubato
 helm repo update
 ```
 
-Install Elasticsearch 
+Install Digital Chart  
 ```sh
-helm install  --name es-release incubator/elasticsearch
-```
-
-Install Kibana 
-```sh
-helm install stable/kibana --name kibana -f kibana.yaml
+helm install --name dh-stack digital-stack/
 ```
 
 
