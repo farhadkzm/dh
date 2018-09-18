@@ -26,3 +26,16 @@ Create required user account on the cluster
 ```sh
 kubectl create -f service_account.yaml
 ```
+
+Install Helm on the cluster:
+
+```sh
+helm init --service-account helm
+```
+
+Create Elasticsearch
+
+```sh
+helm install  --name my-release incubator/elasticsearch
+```
+
