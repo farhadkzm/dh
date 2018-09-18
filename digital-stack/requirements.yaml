@@ -3,5 +3,5 @@ dependencies:
     repository: alias:incubator
 #    version: 0.1.1
   - name: kibana
-    repository: stable
+    repository: alias:stable
 #    version: 0.1.1
