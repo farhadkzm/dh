@@ -28,10 +28,12 @@ Create required user account on the cluster
 kubectl create -f service_account.yaml
 ```
 
-Install Helm on the cluster:
+Prepare helm for the cluster:
 
 ```sh
 helm init --service-account helm
+helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+helm repo update
 ```
 
 Install Elasticsearch 
