@@ -10,6 +10,7 @@ Download required scripts:
 ```sh
 curl https://raw.githubusercontent.com/farhadkzm/dh/master/k8s.py -L  -o k8s.py
 curl https://raw.githubusercontent.com/farhadkzm/dh/master/service_account.yaml -L  -o service_account.yaml
+curl https://raw.githubusercontent.com/farhadkzm/dh/master/kibana.yaml -L  -o kibana.yaml
 ```
 
 Run the downloaded Google Deployment Manager script
