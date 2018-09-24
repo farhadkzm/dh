@@ -8,12 +8,7 @@ const port = 3000
 const getLocation = async url => {
   try {
     const response = await axios.get(url);
-    const data = response.data;
-    console.log(
-      `City: ${data.results[0].formatted_address} -`,
-      `Latitude: ${data.results[0].geometry.location.lat} -`,
-      `Longitude: ${data.results[0].geometry.location.lng}`
-    );
+    return response.data;
   } catch (error) {
     console.log(error);
   }
