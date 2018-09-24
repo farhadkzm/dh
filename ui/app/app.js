@@ -1,25 +1,37 @@
 // content of index.js
 const http = require('http')
-const request = require('axios');
+const express = require('express')
+const fetch = require('node-fetch')
 
-const elastic_url = 'http//dh-stack-elasticsearch-client:9200/log/_search'
-const port = 3000
+const app = express()
+//const elastic_url ='http//dh-stack-elasticsearch-client:9200/log/_search'
+const elastic_url ='http://localhost:9200/log/_search'
 
-const getLocation = async url => {
-  return await axios.get(url).data
-};
+const port = process.env.PORT || 3000
 
-
-
-const requestHandler = (request, response) => {
-  console.log(request.url)
-  var es_response = getLocation(elastic_url);
-  response.end(es_response)
+function get(url) {
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(res1 => res1.json())
+      .then(data => resolve(data))
+      .catch(err => reject(err))
+  })
 }
 
-const server = http.createServer(requestHandler)
 
-server.listen(port, (err) => {
+app.get('/', (request, response) => {
+  Promise.all([
+    get(elastic_url)
+  ]).then(([es_res]) =>
+    response.send({
+      query: es_res
+    }))
+    .catch(err => {
+      console.log (err)
+      response.send('Ops, something has gone wrong', er)})
+})
+
+app.listen(port, (err) => {
   if (err) {
     return console.log('something bad happened', err)
   }
