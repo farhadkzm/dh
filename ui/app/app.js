@@ -14,7 +14,7 @@ const getLocation = async url => {
 const requestHandler = (request, response) => {
   console.log(request.url)
   var es_response = getLocation(elastic_url);
-  response.send(es_response)
+  response.end(es_response)
 }
 
 const server = http.createServer(requestHandler)
