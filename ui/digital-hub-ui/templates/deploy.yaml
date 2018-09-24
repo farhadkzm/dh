@@ -12,10 +12,10 @@ spec:
       containers:
         - name: digital-hub-ui
         #todo the following needs to be parameterized instead of relying on the latest verions
-          image:  gcr.io/dh-v1-216802/github-farhadkzm-dh #"{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image:  gcr.io/dh-v1-216802/github-farhadkzm-dh:latest
           imagePullPolicy: Always # latest version might change
           command: ["/bin/sh"]
-          args: ["-c", "node /app/ui/"]
+          args: ["-c", "node /app/app.js"]
           ports:
             - name: http
               containerPort: 80
