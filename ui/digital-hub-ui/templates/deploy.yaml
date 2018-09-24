@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: digital-hub-ui
+        #todo the following needs to be parameterized instead of relying on the latest verions
+          image:  gcr.io/dh-v1-216802/github-farhadkzm-dh #"{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always # latest version might change
+          command: ["/bin/sh"]
+          args: ["-c", "node /app/ui/"]
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  ports:
+  - name: rest
+    port: 80
+    targetPort: 3000
+  selector:
+    app: {{ .Chart.Name }}
