@@ -6,12 +6,7 @@ const elastic_url = 'http//dh-stack-elasticsearch-client:9200/log/_search'
 const port = 3000
 
 const getLocation = async url => {
-  try {
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+  return await axios.get(url).data
 };
 
 
@@ -19,7 +14,7 @@ const getLocation = async url => {
 const requestHandler = (request, response) => {
   console.log(request.url)
   var es_response = getLocation(elastic_url);
-  response.end('Hello Node.js Server!. ES response: ' + es_response)
+  response.send(es_response)
 }
 
 const server = http.createServer(requestHandler)
