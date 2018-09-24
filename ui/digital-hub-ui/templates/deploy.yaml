@@ -12,7 +12,7 @@ spec:
       containers:
         - name: digital-hub-ui
         #todo the following needs to be parameterized instead of relying on the latest verions
-          image:  gcr.io/dh-v1-216802/github-farhadkzm-dh:a0b8e25bebc8a13c13eec190f1bdb29004e50513
+          image:  gcr.io/dh-v1-216802/github-farhadkzm-dh:5764b7750f11c3b17489be36c84d6392b0e93a62
           imagePullPolicy: Always # latest version might change
           command: ["/bin/sh"]
           args: ["-c", "node /app/app.js"]
