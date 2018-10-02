@@ -1,0 +1,18 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: log-enhancer
+spec:
+  schedule: "*/20 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: digital-hub-ui
+            #todo the following needs to be parameterized instead of relying on the latest verions
+              image:   gcr.io/dh-v1-216802/github-farhadkzm-dh:e4ce369e6aed5989aa19665ad25eafef4beab7ba
+              imagePullPolicy: Always # latest version might change
+              command: ["/bin/sh"]
+              args: ["-c", "node /app/app.js"]
+          restartPolicy: OnFailure
