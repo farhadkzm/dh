@@ -63,3 +63,23 @@ kubectl port-forward dh-stack-elasticsearch-client-868d6f98fd-nz8rg 9200:9200
 ```
 
 Install the UI app dependencies by running **npm install** in ui/app/ and run the app using **node ui/app/app.js**
+
+
+# Rendering Graphs in the UI
+
+There are various approaches to visualize the data in Elasticsearch for the end-users of the UI application. 
+
+### Integrate Kibana in the UI application
+
+Charts are created in Kibana then they are injected into the UI. 
+
+#### Injecting charts with HTML iframe
+In this approach Kibana needs to be exposed to the Internet as the end-user needs to view charts rendered by Kibanain. This method brings challenges in terms of handling authentication and authorization due to the fact that users need to be authenticated with Kibana as well as the UI.
+
+#### Proxy Kibana via the UI
+The UI proxies Kibana so the end-users only interact with the UI. As charts are still rendered in Kibana, there might be limitations on customizing the look and feel of the charts.
+
+
+### Rendering Chart by data from Elasticsearch
+The UI fetches data from Elasticsearch and renders it using libraris like D3. This approach gives us the most flexibility in terms of customizing our charts and graphs. As an example visit http://www.cotrino.com/starpaths/
+

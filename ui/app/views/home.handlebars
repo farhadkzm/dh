@@ -1,2 +1,25 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<iframe src="{{chart1_url}}" height="600" width="800"></iframe>
+<script>
+    google.charts.load('current', { 'packages': ['corechart', 'line'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var items = {{{ chart_data }}};
+
+        console.log(items);
+        var data = google.visualization.arrayToDataTable([['Year', 'Logs']].concat(items));
+
+        var options = {
+            title: 'Number of Logs',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+      }
+
+</script>
+<div id="chart_div"></div>

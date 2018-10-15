@@ -1,4 +1,5 @@
 const express = require('express')
+var request = require('request')
 var exphbs = require('express-handlebars');
 const app = express()
 
@@ -9,28 +10,56 @@ const kibana_url = '/app/kibana#/visualize/edit/16cd8760-cac0-11e8-9e8c-137d8010
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-app.get('/chart_iframe', function (req, res) {
-  res.render('home', { chart1_url: '/chart_proxy' });
+// Set the headers
+var headers = {
+  'Content-Type': 'application/json'
+}
+
+// Configure the request
+var options = {
+  url: 'http://localhost:9200/log/_search',
+  method: 'POST',
+
+  json: true,
+  body: {
+    "size": 0,
+    "aggs": {
+      "group_by_execution_id": {
+
+        "terms": {
+          "field": "created"
+        }
+      }
+    }
+  }
+}
+
+// Start the request
+
+
+app.get('/chart', function (req, res) {
+
+  request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // Print out the response body
+      console.log(body)
+    }
+    var arry = body.aggregations.group_by_execution_id.buckets.map(data => {
+      //key_as_string
+      //doc_count
+      return [data.key_as_string, data.doc_count]
+    })
+    console.log(JSON.stringify(arry))
+    res.render('home', { chart_data: JSON.stringify(arry) })
+  })
+
 });
 
-
-app.get('/chart_proxy', function (req, res) {
-
-  req.pipe(require('request')(chart_url)).pipe(res);
-
-  // res.render('home',{chart1_url: chart_url});
-});
-
-app.get('/foo', function (req, res, next) {
-  req.url = kibana_url
-  req.originalUrl = kibana_url
-  next()
-});
 
 app.use(function (req, res) {
 
-  console.log('rewriting to ', 'http://localhost:5601' + req.url )
-  req.pipe(require('request')('http://localhost:5601' + req.url )).pipe(res);
+  console.log('rewriting to ', 'http://localhost:5601' + req.url)
+  req.pipe(require('request')('http://localhost:5601' + req.url)).pipe(res);
 
 });
 
