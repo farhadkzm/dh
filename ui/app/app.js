@@ -36,6 +36,63 @@ var options = {
 
 // Start the request
 
+app.get('/es_data', function (req, res) {
+  console.log(req.query.filter)
+
+  // Configure the request
+  var options = {
+    url: 'http://localhost:9200/log/_search',
+    method: 'POST',
+
+    json: true,
+    body: {
+      "size": 0,
+      "aggs": {
+        "group_by_execution_id": {
+          "filter": {
+            "range": {
+              "created": {
+                "gte": req.query.filter
+                // ,"lte": "now"
+              }
+            }
+          },
+
+          "aggs": {
+            "buckets": {
+              "date_histogram": {
+                "field": "created",
+                "interval": "day"
+              }
+            }
+          }
+
+        }
+
+
+      }
+    }
+  }
+  request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // Print out the response body
+      console.log(body)
+    }
+
+    var arry = body.aggregations.group_by_execution_id.buckets.buckets.map(data => {
+      //key_as_string
+      //doc_count
+      return [data.key_as_string, data.doc_count]
+    })
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(arry));
+  })
+
+
+
+
+
+});
 
 app.get('/chart', function (req, res) {
 

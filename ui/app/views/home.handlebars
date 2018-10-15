@@ -1,25 +1,65 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
 <script>
     google.charts.load('current', { 'packages': ['corechart', 'line'] });
     google.charts.setOnLoadCallback(drawChart);
 
+    function inlineDraw(items) {
+            var data = google.visualization.arrayToDataTable([['Year', 'Logs']].concat(items));
+
+            var options = {
+                title: 'Number of Logs',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+
+
+        }
+
     function drawChart() {
-        var items = {{{ chart_data }}};
-
-        console.log(items);
-        var data = google.visualization.arrayToDataTable([['Year', 'Logs']].concat(items));
-
-        var options = {
-            title: 'Number of Logs',
-            curveType: 'function',
-            legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
+       // inlineDraw({{{ chart_data }}})  
       }
 
 </script>
+
+
+<script>
+
+
+    $(document).ready(function () {
+        $("#date_filter").change(function () {
+            var currentValue = document.getElementById("date_filter").value
+            //pass the currentValue to the API so 
+            //ajax /es_data
+            $.ajax({
+                url: `/es_data?filter=${currentValue}`, success: function (result) {
+                    console.log(result);
+                    inlineDraw(result)
+                }
+            });
+            console.log('New value is ', currentValue)
+            var min_created_date = currentValue
+            var url = `/app/kibana#/visualize/edit/16cd8760-cac0-11e8-9e8c-137d8010fd52?embed=true&_g=(refreshInterval:(pause:!t,value:0),time:(from:now-5y,mode:quick,to:now))&_a=(filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'5bd45840-cabe-11e8-9e8c-137d8010fd52',key:created,negate:!f,params:(gte:'${min_created_date}'),type:range,value:'January+2nd+2018,+11:00:00.000+to+Infinity'),range:(created:(gte:'${min_created_date}')))),linked:!f,query:(language:kuery,query:''),uiState:(vis:(defaultColors:('0+-+50':'rgb(0,104,55)','50+-+75':'rgb(255,255,190)','75+-+100':'rgb(165,0,38)'))),vis:(aggs:!((enabled:!t,id:'1',params:(),schema:metric,type:count)),params:(addLegend:!t,addTooltip:!t,gauge:(backStyle:Full,colorSchema:'Green+to+Red',colorsRange:!((from:0,to:50),(from:50,to:75),(from:75,to:100)),extendRange:!t,gaugeColorMode:Labels,gaugeStyle:Full,gaugeType:Arc,invertColors:!f,labels:(color:black,show:!t),orientation:vertical,percentageMode:!f,scale:(color:%23333,labels:!f,show:!t),style:(bgColor:!f,bgFill:%23eee,bgMask:!f,bgWidth:0.9,fontSize:60,labelColor:!t,mask:!f,maskBars:50,subText:'',width:0.9),type:meter,verticalSplit:!f),isDisplayWarning:!f,type:gauge),title:'All+Logs',type:gauge))`
+            document.getElementById("kibana_iframe").src = url;
+            //document.getElementById(iframeId).reload(true);
+        });
+
+        
+
+    });
+
+</script>
+
+<select id="date_filter">
+    <option value="2018-01-01">2018-01-01</option>
+    <option value="2018-01-02">2018-01-02</option>
+    <option value="2018-01-03">2018-01-03</option>
+</select>
+
+
 <div id="chart_div"></div>
+
+<iframe id="kibana_iframe" src="" height="500" width="700"></iframe>
